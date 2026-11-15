@@ -1,2 +1,6 @@
 gpype[all]
-socket
+bleak
+numpy
+scipy
+dash
+plotly
