@@ -3,3 +3,6 @@ numpy
 scipy
 dash
 plotly
+# Core runtime dependencies for the app
+# Install with: python -m venv .venv && . .venv/bin/activate && python -m pip install -r requirements.txt
+gpype[all]
