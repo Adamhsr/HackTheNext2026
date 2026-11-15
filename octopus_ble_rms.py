@@ -21,7 +21,7 @@ FIST_MIN_UV = 150.0       # Fist LED turns ON when: FIST_MIN_UV <= RMS < FIST_MA
 FIST_MAX_UV = 400.0
 ARM_MIN_UV = 400.0          # Full Arm LED turns ON when: RMS >= ARM_MIN_UV
 
-Y_AXIS_MAX_UV = 50000.0     # Hard cap for the graph's Y-axis (prevents 15k+ spikes from squashing history)
+Y_AXIS_MAX_UV = 3000.0     # Hard cap for the graph's Y-axis (prevents 15k+ spikes from squashing history)
 CHANNEL_ARTIFACT_UV = 2000.0 # Ignore individual floating/loose pins above this value when averaging
 
 # ==========================================
