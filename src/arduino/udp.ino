@@ -15,16 +15,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <WiFiS3.h>
+#include "secrets.h"
 
 int status = WL_IDLE_STATUS;
-///////please enter your sensitive data in the Secret tab/arduino_secrets.h
-char ssid[] = "HackTheNest";        // your network SSID (name)
-char pass[] = "HatchYourIdea26";    // your network password (use for WPA, or use as key for WEP)
-int keyIndex = 0;            // your network key index number (needed only for WEP)
+char ssid[] = SSID;                           // network name
+char pass[] = PASS;                           // network password
 
-unsigned int localPort = 2390;      // local port to listen on
+unsigned int localPort = 2390;                // local port to listen on
 
-char packetBuffer[256]; //buffer to hold incoming packet
+char packetBuffer[256];                       // buffer to hold incoming packet
 char  ReplyBuffer[] = "acknowledged\n";       // a string to send back
 
 WiFiUDP Udp;
@@ -52,7 +51,6 @@ void udpSetup() {
   while (status != WL_CONNECTED) {
     Serial.print("Attempting to connect to SSID: ");
     Serial.println(ssid);
-    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
     status = WiFi.begin(ssid, pass);
 
     // wait 10 seconds for connection:
@@ -60,9 +58,6 @@ void udpSetup() {
   }
   Serial.println("Connected to WiFi");
   printWifiStatus();
-
-  Serial.println("\nStarting connection to server...");
-  // if you get a connection, report back via serial:
   Udp.begin(localPort);
 }
 
@@ -90,7 +85,7 @@ bool udpLoop(int &motor, float &revolutions) {
   return false;
 }
 
-// packet is "MOTOR REVOLUTIONS"
+// packet is "${MOTOR} ${REVOLUTIONS}"
 bool parsePacket(int &motor, float &revolutions) {
   Serial.print("Packet: ");
   Serial.println(packetBuffer);
@@ -117,10 +112,6 @@ bool parsePacket(int &motor, float &revolutions) {
   motor = (int)parsedMotor;
   revolutions = parsedRevolutions;
 
-  Serial.print("Motor: ");
-  Serial.println(motor);
-  Serial.print("Revolutions: ");
-  Serial.println(revolutions);
   return true;
 }
 

@@ -50,8 +50,6 @@ connection_status = "Scanning for Octopus-16 devices..."
 connected_device_label = "None"
 nearby_devices_str = "None yet"
 lock = threading.Lock()
-last_fist_active = False
-last_arm_active = False
 
 # ==========================================
 # 3. VECTORIZED SIGNAL PROCESSING (1-50 Hz + Artifact-Rejected Mean RMS)
@@ -84,20 +82,12 @@ def compute_mean_rms_uv():
 
 
 def maybe_send_gesture_udp_event(fist_active: bool, arm_active: bool, previous_fist_active: bool | None = None, previous_arm_active: bool | None = None):
-    global last_fist_active, last_arm_active
-
-    if previous_fist_active is None:
-        previous_fist_active = last_fist_active
-    if previous_arm_active is None:
-        previous_arm_active = last_arm_active
 
     if fist_active and not arm_active:
         udp.send_udp_packet(udp.revolution_packet(0, -0.1))
     if arm_active:
         udp.send_udp_packet(udp.revolution_packet(0, 0.1))
 
-    last_fist_active = fist_active
-    last_arm_active = arm_active
     return fist_active, arm_active
 
 # ==========================================
@@ -222,7 +212,7 @@ template='plotly_dark',
 )
 
 app.layout = html.Div(style={'backgroundColor': '#111111', 'color': '#FFFFFF', 'padding': '20px', 'fontFamily': 'sans-serif'}, children=[
-    html.H2("Octopus 16 — Arm Muscle & Gesture LED Dashboard"),
+    html.H2("Octopus 16 — Neural Gimbal Dashboard"),
 
     # Connection Banner
     html.Div(style={'backgroundColor': '#1E1E1E', 'padding': '12px 16px', 'borderRadius': '8px', 'marginBottom': '16px', 'borderLeft': '4px solid #00FFCC'}, children=[

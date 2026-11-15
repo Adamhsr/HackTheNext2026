@@ -1,4 +1,3 @@
-gpype[all]
 bleak
 numpy
 scipy
